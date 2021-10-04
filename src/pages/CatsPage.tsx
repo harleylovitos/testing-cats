@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setTimeout } from 'timers';
 import { getBreeds,IBreed,setBreed } from '../redux/breedsSlice';
-import {ICat,getCats} from '../redux/catsSlice'
+import {ICat,getCats,selectedNewBreed} from '../redux/catsSlice'
 import queryString from 'query-string'
 
 const CatsPage:React.FC = () => { 
@@ -17,16 +17,15 @@ const CatsPage:React.FC = () => {
     const [buttonText,setButtonText] = useState("Load more");    
     const breeds = useSelector((state:any) => state.breedsSlice.breeds);
     const cats = useSelector((state:any) => state.catsSlice.cats);
+    const loadedAll = useSelector((state:any) => state.catsSlice.loadedAll);
 
-    
-
-    const loadCats = (breedId:string,page:number) => {
+    const loadCats = (breedId:string,page:number) => {        
         setButtonText("Loading cats...");
-       
+        setButtonDisabled(true)    
         setTimeout(()=>{            
             setSelectedBreed(breedId)
-            setCurrentPage(1)
-            dispatch( getCats({"breedId":breedId,"page":1}) )
+            setCurrentPage(page)
+            dispatch( getCats({"breedId":breedId,"page":page}) )
             setButtonDisabled(false)        
             setButtonText("Load more");
 
@@ -36,6 +35,7 @@ const CatsPage:React.FC = () => {
 
     const onChangeBreed = (e:React.ChangeEvent<HTMLSelectElement>) =>{       
         let breedId = e.target.value;
+        dispatch(selectedNewBreed());
         loadCats(breedId,1)
     }
 
@@ -51,7 +51,8 @@ const CatsPage:React.FC = () => {
         
         if(selectedBreed !== undefined)       
             loadCats(selectedBreed,1)        
-            
+            console.log(cats);       
+        
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
@@ -101,7 +102,7 @@ const CatsPage:React.FC = () => {
                 <Row>                    
                     <Col>
                     <br/>
-                        <Button variant="success" onClick={() => loadMore()} disabled={buttonDisabled}>{buttonText}</Button>
+                        <Button hidden={loadedAll} variant="success" onClick={() => loadMore()} disabled={buttonDisabled}>{buttonText}</Button>
                     </Col>
                 </Row>
                 
