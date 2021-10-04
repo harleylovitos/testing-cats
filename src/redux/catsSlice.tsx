@@ -17,9 +17,10 @@ export interface ICats{
     cats: ICat[]
     cat: ICatDetails
     loadedAll: boolean;
+    error: string;
 }
 
-const initialState = {cats: [],cat: {breeds:[],breed:'',url:'',id:''},loadedAll:false} as ICats
+const initialState = {cats: [],cat: {breeds:[],breed:'',url:'',id:''},loadedAll:false,error: ""} as ICats
 
 const catsSlice = createSlice({
     name: 'cats',
@@ -39,8 +40,9 @@ const catsSlice = createSlice({
         state.loadedAll = false
         state.cats = []
       },
+      setError: (state,action) => {state.error = action.payload;},      
     },
   })
   
-export const { setCats,getCats,getCat,setCat,selectedNewBreed } = catsSlice.actions
+export const { setCats,getCats,getCat,setCat,selectedNewBreed,setError } = catsSlice.actions
 export default catsSlice.reducer

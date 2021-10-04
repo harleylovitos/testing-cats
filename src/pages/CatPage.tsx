@@ -12,16 +12,22 @@ const CatPage:React.FC = () => {
     const dispatch = useDispatch();
     let {id} = useParams<ICatPageProps>();    
     const cat = useSelector((state:any) => state.catsSlice.cat);
+    const catError = useSelector((state:any) => state.catsSlice.error);
     const breedId = useSelector((state:any) => state.breedsSlice.breed);
 
     useEffect(()=>{
-        dispatch(getCat({id}))                                 
+        dispatch(getCat({id}))                         
+        console.log(catError);
+                
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[id])
     
     return (
         <div className="cat">
             <Container>
+                {
+                    catError && <div>{catError.message}</div>
+                }
                 {cat.breeds.length !== 0 &&
                     <Card >
                         <Card.Header>

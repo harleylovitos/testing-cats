@@ -1,6 +1,6 @@
 import {call,put} from "redux-saga/effects"
 import {requestGetCats,requestGetCat} from "../requests/cats"
-import {ICat,setCats,setCat,ICatDetails} from '../catsSlice'
+import {ICat,setCats,setCat,ICatDetails,setError} from '../catsSlice'
 
 interface ICatsResult{
   data: ICat[]; 
@@ -13,9 +13,8 @@ export function* handleGetCats(action:any){
         const response:ICatsResult = yield call(requestGetCats,{breedId:breedId,page:page});
         const {data} = response;                
         yield put(setCats(data));
-    }catch(error){
-        console.log(error);
-        
+    }catch(error){              
+      yield put(setError(error));        
     }
 }
 
@@ -27,10 +26,11 @@ export function* handleGetCat(action:any){
   const  {id} = action.payload;
   try {
       const response:ICatResult = yield call(requestGetCat,{id:id});
+      
       const {data} = response;                
       yield put(setCat(data));
-  }catch(error){
-      console.log(error);
-      
+  }catch(error:any){       
+           
+    yield put(setError(error));        
   }
 }
