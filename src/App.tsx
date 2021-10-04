@@ -1,25 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import store from './redux/store'
+import {Provider} from 'react-redux'
+import HomePage from './pages/HomePage';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route  
+} from 'react-router-dom';
+import CatPage from './pages/CatPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}> 
+    <div className="App">      
+        <Router>
+            <Switch>          
+                <Route path="/:id">
+                    <CatPage />
+                </Route>
+                <Route path="/">
+                  <HomePage/>  
+                </Route>
+            </Switch>            
+        </Router>
+            
+      </div>
+    </Provider>
   );
 }
 

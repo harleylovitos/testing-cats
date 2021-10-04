@@ -1,0 +1,26 @@
+$buttonGreen: #28a745;
+.App {
+  button.btn-success {
+    background-color: $buttonGreen;
+  }
+  .btn-block {
+    display: block;
+    width: 100%;
+    padding: 6px 12px;
+  }
+  .home {
+    padding: 20px 0;
+    .card {
+      margin-bottom: 20px;
+    }
+    .cats_form {
+      padding: 10px 0 1rem 0;
+    }
+    .no_cats {
+      margin-bottom: 20px;
+    }
+  }
+  .cat {
+    padding: 20px 0;
+  }
+}
